@@ -1,0 +1,20 @@
+# Stage 5 only. Dev credentials; do not expose this beyond localhost.
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: planagents
+      POSTGRES_PASSWORD: planagents
+      POSTGRES_DB: planagents
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - planagents-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U planagents"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  planagents-pg:
